@@ -566,19 +566,16 @@ const sendNote = document.getElementById("sendNote");
 const thanks = document.getElementById("thanks");
 const thanksSub = document.getElementById("thanksSub");
 
-async function store(answers){
-  const use = window.claude && window.claude.use;
-  if (!use) throw new Error("no-runtime");
-  const [db, user] = await Promise.all([use("db"), use("user")]);
-  if (!db || !user) throw new Error("no-db");
-  const uid = await user.id();
-  if (!uid) throw new Error("no-uid");
-  const ref = db.doc("answers/" + uid);
-  const snap = await ref.get();
-  const prev = (snap.exists && Array.isArray(snap.data().submissions)) ? snap.data().submissions : [];
-  await ref.set({
-    submissions: prev.concat([Object.assign({ at: new Date().toISOString() }, answers)]),
-    updatedAt: new Date().toISOString()
+/* 回答の送り先（Apps Script の受け取り口）。
+   返事は受け取れない作りなので、送ったら そのままお礼の画面に進む。 */
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwMrZaJEP4AZncadOuZxVG_NXdbH5asgo9xPsNNPjW3JeSonrrTEArhYcmO8kCGOcSLww/exec";
+
+function store(answers){
+  return fetch(ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(answers)
   });
 }
 
