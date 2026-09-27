@@ -628,6 +628,18 @@ function draw(){
   setTimeout(finish, 2680);
 }
 
+/* 確認用：URL のうしろに ?n=1 〜 ?n=12 を付けると、その番号を直接出す。
+   ふつうに開いた人には関係がない。1日1回の記録にも残さない。 */
+(function(){
+  const m = new URLSearchParams(location.search).get("n");
+  const i = parseInt(m, 10) - 1;
+  if (!(i >= 0 && i < N)) return;
+  render(DATA[i]);
+  document.body.classList.add("revealed");
+  hint.style.display = "none";
+  drawBtn.style.display = "none";
+})();
+
 drawBtn.addEventListener("click", draw);
 againBtn.addEventListener("click", () => {
   clearSaved();
