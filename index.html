@@ -655,8 +655,6 @@ againBtn.addEventListener("click", () => {
 /* ============================================================
    ストーリー用の画像を書き出す（1080×1920）
    ============================================================ */
-const SHARE_URL = "kudo-nn.github.io/ochamikuji";
-
 function loadImg(src){
   return new Promise((resolve, reject) => {
     const im = new Image();
@@ -795,9 +793,7 @@ async function buildImage(d){
 
   ctx.fillStyle = "#8D9187";
   ctx.font = '400 30px "Yomogi"';
-  ctx.fillText("越智ゆえじ", W / 2, H - 132);
-  ctx.font = '400 24px "Zen Kaku Gothic New", sans-serif';
-  ctx.fillText(SHARE_URL, W / 2, H - 88);
+  ctx.fillText("越智ゆえじ", W / 2, H - 112);
 
   return c;
 }
